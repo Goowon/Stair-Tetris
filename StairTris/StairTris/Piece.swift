@@ -10,6 +10,11 @@ import Foundation
 import SpriteKit
 
 
+enum Orientation: Int {
+    case up = 1, left, down, right
+}
+
+
 enum PieceType: UInt32 {
     case square, z, zinv, l, linv, tri, line, normal
     
@@ -32,11 +37,19 @@ class Piece: SKSpriteNode {
             case .square:
                 colorCells(color: .yellow)
                 cell1.isHidden = true
-                cell2.isHidden = true
-                cell3.isHidden = true
-                cell6.isHidden = true
+                cell4.isHidden = true
+                cell7.isHidden = true
+                cell8.isHidden = true
                 cell9.isHidden = true
                 cell10.isHidden = true
+                cell2.position.x -= 20
+                cell2.position.y -= 20
+                cell3.position.x -= 20
+                cell3.position.y -= 20
+                cell5.position.x -= 20
+                cell5.position.y -= 20
+                cell6.position.x -= 20
+                cell6.position.y -= 20
             case .z:
                 colorCells(color: .blue)
                 cell3.isHidden = true
@@ -45,6 +58,10 @@ class Piece: SKSpriteNode {
                 cell8.isHidden = true
                 cell9.isHidden = true
                 cell10.isHidden = true
+                cell1.position.y -= 20
+                cell2.position.y -= 20
+                cell5.position.y -= 20
+                cell6.position.y -= 20
             case .zinv:
                 colorCells(color: .green)
                 cell1.isHidden = true
@@ -53,35 +70,43 @@ class Piece: SKSpriteNode {
                 cell8.isHidden = true
                 cell9.isHidden = true
                 cell10.isHidden = true
+                cell2.position.y -= 20
+                cell3.position.y -= 20
+                cell4.position.y -= 20
+                cell5.position.y -= 20
             case .l:
                 colorCells(color: .purple)
-                cell2.isHidden = true
+                cell1.isHidden = true
                 cell3.isHidden = true
-                cell5.isHidden = true
+                cell4.isHidden = true
                 cell6.isHidden = true
-                cell9.isHidden = true
+                cell7.isHidden = true
                 cell10.isHidden = true
             case .linv:
                 colorCells(color: .cyan)
-                cell2.isHidden = true
+                cell3.isHidden = true
                 cell1.isHidden = true
                 cell4.isHidden = true
-                cell5.isHidden = true
-                cell7.isHidden = true
+                cell6.isHidden = true
+                cell9.isHidden = true
                 cell10.isHidden = true
             case .line:
                 colorCells(color: .orange)
                 cell2.isHidden = true
                 cell1.isHidden = true
                 cell3.isHidden = true
-                cell5.isHidden = true
-                cell4.isHidden = true
-                cell6.isHidden = true
+                cell7.isHidden = true
+                cell8.isHidden = true
+                cell9.isHidden = true
+                cell4.position.x -= 20
+                cell5.position.x -= 20
+                cell6.position.x -= 20
+                cell10.position.x -= 20
             case .tri:
                 colorCells(color: .magenta)
-                cell4.isHidden = true
-                cell6.isHidden = true
+                cell1.isHidden = true
                 cell7.isHidden = true
+                cell3.isHidden = true
                 cell8.isHidden = true
                 cell9.isHidden = true
                 cell10.isHidden = true
@@ -90,6 +115,15 @@ class Piece: SKSpriteNode {
             }
         }
     }
+    /*
+    var rotation: Orientation = .up {
+        didSet {
+            switch rotation {
+            case up
+            }
+        }
+    }
+    */
     
     var cell1: SKSpriteNode!
     var cell2: SKSpriteNode!
@@ -114,19 +148,10 @@ class Piece: SKSpriteNode {
         cell9 = childNode(withName: "cell9") as! SKSpriteNode
         cell10 = childNode(withName: "cell10") as! SKSpriteNode
     }
-   
-    func rotateRight() {
-        if zRotation == 360 || zRotation == -360 {
-            zRotation = 0
-        }
-        zRotation += 90
-    }
     
-    func rotateLeft() {
-        if zRotation == 360 || zRotation == -360 {
-            zRotation = 0
-        }
-        zRotation -= 90
+    func rotate() {
+        if type == .square { return }
+        zRotation += CGFloat(GLKMathDegreesToRadians(90))
     }
     
     /* You are required to implement this for your subclass to work */
@@ -148,7 +173,7 @@ class Piece: SKSpriteNode {
     }
     
     func setup() {
-        type = PieceType.randomType()
+        /*type = .square*/type = PieceType.randomType()
     }
     
     /* You are required to implement this for your subclass to work */
