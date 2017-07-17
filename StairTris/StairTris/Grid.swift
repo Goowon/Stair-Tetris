@@ -117,6 +117,7 @@ class Grid: SKSpriteNode {
                 addChild(cell)
                 cell.position.x = CGFloat((Int(location.x)/cellWidth)*cellWidth + cellWidth/2)
                 cell.position.y = CGFloat((Int(location.y)/cellHeight)*cellHeight + cellHeight/2)
+                cell.physicsBody?.categoryBitMask = 2
             }
         }
         piece.removeFromParent()

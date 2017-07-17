@@ -32,11 +32,12 @@ enum GameState {
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    var count:CFTimeInterval = 0
     var gridNode: Grid!
     var scoreLabel: SKLabelNode!
     var timerLabel: SKLabelNode!
     var piece: Piece!
-    var pieceArray: [Piece]!
+    var pieceArray: ArrayNode!
     var scrollTimer: CFTimeInterval = 10
     var lockTimer: CFTimeInterval = 3
     let fixedDelta: CFTimeInterval = 1.0 / 60.0 /* 60 FPS */
@@ -49,6 +50,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameOver: SKSpriteNode!
     var restartButton: MSButtonNode!
     var currentState: GameState = .playing
+    var clearScreen: SKSpriteNode!
     
     override func didMove(to view: SKView) {
         gridNode = childNode(withName: "//gridNode") as! Grid
@@ -64,6 +66,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scene?.scaleMode = .aspectFit
             view.presentScene(scene)
         }
+        clearScreen = childNode(withName: "clearScreen") as! SKSpriteNode
+        clearScreen.isHidden = true
+        pieceArray = childNode(withName: "arrayNode") as! ArrayNode
+        
+        pieceArray.setUpArray()
         
         physicsWorld.contactDelegate = self
     }
@@ -95,15 +102,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let nodeAtPoint = atPoint(location)
         if nodeAtPoint.name == "gameOver" { return }
         if !touching {
-            piece = (SKScene(fileNamed: "Piece")?.childNode(withName: "piece") as! SKSpriteNode).copy() as! Piece
+            pieceArray.array[0].removeFromParent()
+            piece = pieceArray.array[0]
+            piece.xScale = 1
+            piece.yScale = 1
             addChild(piece)
-            piece.connectCells()
-            piece.setup()
             piece.position = location
             if piece.position.x < -10 {
                 piece.position.x = -10
             }
             touching = true
+            pieceArray.moveArray()
         }
         else if touching && nodeAtPoint.name == "rotateArea" {
             secondFinger = true
@@ -141,30 +150,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func makePieceArray(){
-        for _ in 1...5 {
-            piece = (SKScene(fileNamed: "Piece")?.childNode(withName: "piece") as! SKSpriteNode).copy() as! Piece
-            piece.connectCells()
-            piece.setup()
-            pieceArray.append(piece)
-        }
-    }
-    
     func resetTimer() {
         scrollTimer = 10
-        hero.physicsBody?.applyImpulse(CGVector(dx:0,dy:8))
+        hero.physicsBody?.applyImpulse(CGVector(dx:0,dy:2))
     }
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        count += fixedDelta
+        if count > 1 {
+            hero.physicsBody?.applyImpulse(CGVector(dx:0,dy:4))
+            count = 0
+        }
         scrollTimer -= fixedDelta
         timerLabel.text = String(Int(scrollTimer))
         scoreLabel.text = String(score)
-        if scrollTimer > 0 { }
+        if scrollTimer > 0 {
+        }
         else {
             resetTimer()
             gridNode.scrollCells()
         }
-        hero.physicsBody?.applyForce(CGVector(dx:2, dy:0))
+        hero.physicsBody?.applyForce(CGVector(dx:1, dy:0))
     }
 }
