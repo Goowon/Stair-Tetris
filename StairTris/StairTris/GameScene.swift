@@ -32,6 +32,7 @@ enum GameState {
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    var timeLimit: CFTimeInterval = 10
     var count:CFTimeInterval = 0
     var gridNode: Grid!
     var scoreLabel: SKLabelNode!
@@ -151,8 +152,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func resetTimer() {
-        scrollTimer = 10
-        hero.physicsBody?.applyImpulse(CGVector(dx:0,dy:2))
+        scrollTimer = timeLimit
+        hero.physicsBody?.applyImpulse(CGVector(dx:0,dy:4))
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -168,9 +169,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if scrollTimer > 0 {
         }
         else {
+            if timeLimit > 5 {
+                timeLimit -= 1
+            }
             resetTimer()
             gridNode.scrollCells()
         }
-        hero.physicsBody?.applyForce(CGVector(dx:1, dy:0))
+        //hero.physicsBody?.applyForce(CGVector(dx:1, dy:0))
     }
 }

@@ -65,9 +65,10 @@ class Grid: SKSpriteNode {
                 }
                 else {
                     gridArray[gridX-1][gridY-1] = gridArray[gridX][gridY]
-                    //gridArray[gridX-1][gridY-1].position = CGPoint(x: (gridX-1)*cellWidth+20, y: (gridY-1)*cellHeight+20)
-                    let moveBlocks = SKAction(named:"moveBlocks")!
-                    gridArray[gridX][gridY].run(moveBlocks)
+                    let moveRight = SKAction(named:"moveRight")!
+                    let moveDown = SKAction(named:"moveDown")!
+                    let moveSequence = SKAction.sequence([moveRight,moveDown])
+                    gridArray[gridX][gridY].run(moveSequence)
                 }
                 if gridX == columns-1 || gridY == rows-1 {
                     let cell = (SKScene(fileNamed: "Cell")?.childNode(withName: "cell") as! SKSpriteNode).copy() as! Cell
@@ -81,6 +82,7 @@ class Grid: SKSpriteNode {
     }
     
     func validMove(piece: Piece) -> Bool {
+        var valid = false
         for cell in piece.children as! [SKSpriteNode] {
             if cell.isHidden { continue }
             else {
@@ -95,9 +97,12 @@ class Grid: SKSpriteNode {
                 else if gridArray[Int(location.x)/cellWidth][Int(location.y)/cellHeight].name != "cell" {
                     return false
                 }
+                if gridArray[Int(location.x)/cellWidth][Int(location.y-40)/cellHeight].name != "cell" {
+                    valid = true
+                }
             }
         }
-        return true
+        return valid
     }
     
     func addPiece(piece: Piece) {
