@@ -52,6 +52,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var restartButton: MSButtonNode!
     var currentState: GameState = .playing
     var clearScreen: SKSpriteNode!
+    var scrollLayer: SKNode!
+    var offset: CGFloat = 0
     
     override func didMove(to view: SKView) {
         gridNode = childNode(withName: "//gridNode") as! Grid
@@ -70,6 +72,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         clearScreen = childNode(withName: "clearScreen") as! SKSpriteNode
         clearScreen.isHidden = true
         pieceArray = childNode(withName: "arrayNode") as! ArrayNode
+        scrollLayer = childNode(withName: "//scrollLayer")!
         
         pieceArray.setUpArray()
         
@@ -109,8 +112,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             piece.yScale = 1
             addChild(piece)
             piece.position = location
-            if piece.position.x < -10 {
-                piece.position.x = -10
+            if piece.position.x < -10 - offset {
+                piece.position.x = -10 - offset
             }
             touching = true
             pieceArray.moveArray()
@@ -129,8 +132,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let location = touch.location(in: self)
             piece.position = location
             //x clamp on left side
-            if piece.position.x < -10 {
-                piece.position.x = -10
+            if piece.position.x < -10 - offset {
+                piece.position.x = -10 - offset
             }
         }
     }
@@ -142,22 +145,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         else if piece != nil {
             if gridNode.validMove(piece: piece) {
                 score += 1
-                gridNode.addPiece(piece: piece)
+                gridNode.addPiece(piece: piece,offset: offset)
                 piece.removeFromParent()
                 piece = nil
                 touching = false
             }
         }
-        
+    }
+    
+    func scrollTheLayer() {
+        scrollLayer.position.y -= CGFloat((40*fixedDelta)/timeLimit)
+        scrollLayer.position.x -= CGFloat((fixedDelta*40)/timeLimit)
+        offset += CGFloat((fixedDelta*40)/timeLimit)
     }
     
     func resetTimer() {
         scrollTimer = timeLimit
         hero.physicsBody?.applyImpulse(CGVector(dx:0,dy:4))
+        offset = 0
     }
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        scrollTheLayer()
         count += fixedDelta
         if count > 1 {
             hero.physicsBody?.applyImpulse(CGVector(dx:0,dy:4))

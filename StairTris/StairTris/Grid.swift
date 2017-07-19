@@ -19,8 +19,10 @@ class Grid: SKSpriteNode {
     var cellWidth = 0
     var cellHeight = 0
     
-    /* Creature Array */
+    /* Cell Array */
     var gridArray = [[Cell]]()
+    //ScrollLayer
+    var scrollLayer: SKNode!
     
     func addCellAtGrid(x: Int, y: Int){
         let cell = (SKScene(fileNamed: "Cell")?.childNode(withName: "cell") as! SKSpriteNode).copy() as! Cell
@@ -65,10 +67,11 @@ class Grid: SKSpriteNode {
                 }
                 else {
                     gridArray[gridX-1][gridY-1] = gridArray[gridX][gridY]
-                    let moveRight = SKAction(named:"moveRight")!
+                    //uncomment to make it slide left then down.
+                    /*let moveRight = SKAction(named:"moveRight")!
                     let moveDown = SKAction(named:"moveDown")!
                     let moveSequence = SKAction.sequence([moveRight,moveDown])
-                    gridArray[gridX][gridY].run(moveSequence)
+                    gridArray[gridX][gridY].run(moveSequence)*/
                 }
                 if gridX == columns-1 || gridY == rows-1 {
                     let cell = (SKScene(fileNamed: "Cell")?.childNode(withName: "cell") as! SKSpriteNode).copy() as! Cell
@@ -105,7 +108,7 @@ class Grid: SKSpriteNode {
         return valid
     }
     
-    func addPiece(piece: Piece) {
+    func addPiece(piece: Piece, offset: CGFloat) {
         //for loop iterate through children of piece
         //convert each piece's position to position on grid
         //use gridArray[Int(location.x)/cellWidth][Int(location.y)/cellHeight] to determine which cell on the grid it should go to
@@ -116,12 +119,14 @@ class Grid: SKSpriteNode {
             else {
                 let position = piece.convert(cell.position, to: self.scene!)
                 let location = (self.scene?.convert(position, to: self))!
-                gridArray[Int(location.x)/cellWidth][Int(location.y)/cellHeight].removeFromParent()
-                gridArray[Int(location.x)/cellWidth][Int(location.y)/cellHeight] = cell as! Cell
+                let gridPositionX = CGFloat((Int(location.x)/cellWidth) * cellWidth)
+                let gridPositionY = CGFloat((Int(location.y)/cellHeight) * cellHeight)
+                gridArray[Int(location.x + offset)/cellWidth][Int(location.y + offset)/cellHeight].removeFromParent()
+                gridArray[Int(location.x + offset)/cellWidth][Int(location.y + offset)/cellHeight] = cell as! Cell
                 cell.removeFromParent()
-                addChild(cell)
-                cell.position.x = CGFloat((Int(location.x)/cellWidth)*cellWidth + cellWidth/2)
-                cell.position.y = CGFloat((Int(location.y)/cellHeight)*cellHeight + cellHeight/2)
+                let scrollLayer = self.childNode(withName: "scrollLayer")!
+                scrollLayer.addChild(cell)
+                cell.position = (self.convert(CGPoint(x: gridPositionX + CGFloat(cellWidth/2) - offset, y: gridPositionY + CGFloat(cellHeight/2) - offset), to: scrollLayer))
                 cell.physicsBody?.categoryBitMask = 2
             }
         }
@@ -137,6 +142,7 @@ class Grid: SKSpriteNode {
         /* Calculate individual cell dimensions */
         cellWidth = Int(size.width) / columns
         cellHeight = Int(size.height) / rows
+        scrollLayer = childNode(withName: "scrollLayer")!
         
         //Populate grid with cells
         populateGrid()
