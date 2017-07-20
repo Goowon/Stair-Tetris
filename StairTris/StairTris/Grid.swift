@@ -84,23 +84,27 @@ class Grid: SKSpriteNode {
         }
     }
     
-    func validMove(piece: Piece) -> Bool {
+    func validMove(piece: Piece, offset: CGFloat) -> Bool {
         var valid = false
         for cell in piece.children as! [SKSpriteNode] {
             if cell.isHidden { continue }
             else {
                 let position = piece.convert(cell.position, to: self.scene!)
                 let location = (self.scene?.convert(position, to: self))!
-                if location.x < 240 || location.y < 0 {
+                if location.x < 240 - offset || location.y < 0 - offset {
+                    print("first Condition")
                     return false
                 }
-                else if location.x > 600 || location.y > 260 {
+                else if location.x > 600 - offset || location.y > 260 - offset {
+                    print("second Condition")
                     return false
                 }
-                else if gridArray[Int(location.x)/cellWidth][Int(location.y)/cellHeight].name != "cell" {
+                else if gridArray[Int(location.x + offset)/cellWidth][Int(location.y + offset)/cellHeight].name != "cell" {
+                    print("third Condition")
                     return false
                 }
-                if gridArray[Int(location.x)/cellWidth][Int(location.y-40)/cellHeight].name != "cell" {
+                if gridArray[Int(location.x + offset)/cellWidth][Int(location.y-40 + offset)/cellHeight].name != "cell" {
+                    print("fourth Condition")
                     valid = true
                 }
             }
@@ -119,8 +123,8 @@ class Grid: SKSpriteNode {
             else {
                 let position = piece.convert(cell.position, to: self.scene!)
                 let location = (self.scene?.convert(position, to: self))!
-                let gridPositionX = CGFloat((Int(location.x)/cellWidth) * cellWidth)
-                let gridPositionY = CGFloat((Int(location.y)/cellHeight) * cellHeight)
+                let gridPositionX = CGFloat((Int(location.x + offset)/cellWidth) * cellWidth)
+                let gridPositionY = CGFloat((Int(location.y + offset)/cellHeight) * cellHeight)
                 gridArray[Int(location.x + offset)/cellWidth][Int(location.y + offset)/cellHeight].removeFromParent()
                 gridArray[Int(location.x + offset)/cellWidth][Int(location.y + offset)/cellHeight] = cell as! Cell
                 cell.removeFromParent()

@@ -12,6 +12,18 @@ import GameplayKit
 
 class GameViewController: UIViewController {
 
+    override func becomeFirstResponder() -> Bool {
+        return true
+    }
+    
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            if let skView = view as? SKView, let scene = skView.scene as? GameScene {
+                scene.shake()
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
