@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E1769911F22A9A900389EDC /* NFF-menu-03-a.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5E1769901F22A9A900389EDC /* NFF-menu-03-a.wav */; };
 		5E452E711F15A077000A75BA /* Piece.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5E452E701F15A077000A75BA /* Piece.sks */; };
 		5E452E731F17DFCD000A75BA /* Cell.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5E452E721F17DFCD000A75BA /* Cell.sks */; };
 		5E452E751F17DFDB000A75BA /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E452E741F17DFDB000A75BA /* Cell.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5E1769901F22A9A900389EDC /* NFF-menu-03-a.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "NFF-menu-03-a.wav"; sourceTree = "<group>"; };
 		5E452E701F15A077000A75BA /* Piece.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Piece.sks; sourceTree = "<group>"; };
 		5E452E721F17DFCD000A75BA /* Cell.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Cell.sks; sourceTree = "<group>"; };
 		5E452E741F17DFDB000A75BA /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 		5EC0A5931F153BFF00EE0DD7 /* StairTris */ = {
 			isa = PBXGroup;
 			children = (
+				5E1769901F22A9A900389EDC /* NFF-menu-03-a.wav */,
 				5EC0A5941F153BFF00EE0DD7 /* AppDelegate.swift */,
 				5EC0A5981F153BFF00EE0DD7 /* Actions.sks */,
 				5EC0A5961F153BFF00EE0DD7 /* GameScene.sks */,
@@ -172,6 +175,7 @@
 				5EC023961F1EAF16005BABB8 /* AlternativeMode.sks in Resources */,
 				5EC0A5A51F153BFF00EE0DD7 /* LaunchScreen.storyboard in Resources */,
 				5EC0A5991F153BFF00EE0DD7 /* Actions.sks in Resources */,
+				5E1769911F22A9A900389EDC /* NFF-menu-03-a.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
