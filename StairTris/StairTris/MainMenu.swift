@@ -13,6 +13,7 @@ import GameplayKit
 class MainMenu: SKScene {
     
     var playButton: MSButtonNode!
+    var tutorialButton: MSButtonNode!
     
     
     override func didMove(to view: SKView) {
@@ -20,6 +21,12 @@ class MainMenu: SKScene {
         playButton.selectedHandler = {
             let scene = GameScene(fileNamed: "GameScene")
             scene?.scaleMode = .aspectFit
+            view.presentScene(scene)
+        }
+        tutorialButton = childNode(withName: "tutorialButton") as! MSButtonNode
+        tutorialButton.selectedHandler = {
+            let scene = Tutorial(fileNamed: "Tutorial")!
+            scene.scaleMode = .aspectFit
             view.presentScene(scene)
         }
     }

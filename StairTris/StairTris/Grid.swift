@@ -23,6 +23,8 @@ class Grid: SKSpriteNode {
     var gridArray = [[Cell]]()
     //ScrollLayer
     var scrollLayer: SKNode!
+    var filledLayer = true
+    var trackingCells = false
     
     func addCellAtGrid(x: Int, y: Int){
         let cell = (SKScene(fileNamed: "Cell")?.childNode(withName: "cell") as! SKSpriteNode).copy() as! Cell
@@ -56,14 +58,32 @@ class Grid: SKSpriteNode {
         }
     }
     
-    func scrollCells() {
+    func scrollCells() -> Bool {
         /* Loop through columns */
+        //If there is a cell on the bottom row that is to the right of the first cleared cell and is a cell then the row is not full.
         for gridX in 0..<columns {
             
             /* Loop through rows */
             for gridY in 0..<rows {
                 if gridX == 0 || gridY == 0 {
                     gridArray[gridX][gridY].removeFromParent()
+                    
+                    //Below this is the bottom row
+                    if gridY == 0 {
+                        
+                        //If it is tracking and the block it removes is a standard cell, then that row is not a filled Layer.
+                        if trackingCells {
+                            if gridArray[gridX][gridY].name == "cell" /*|| gridArray[gridX][gridY].name == "startingCell"*/{
+                                filledLayer = false
+                            }
+                        }
+                        
+                        //It will start tracking when the first block that it deletes is not a standard cell.
+                        if gridArray[gridX][gridY].name != "cell" {
+                            trackingCells = true
+                        }
+        
+                    }
                 }
                 else {
                     gridArray[gridX-1][gridY-1] = gridArray[gridX][gridY]
@@ -82,6 +102,9 @@ class Grid: SKSpriteNode {
                 }
             }
         }
+        trackingCells = false
+        print("Bottom Layer was completely filled = \(filledLayer)")
+        return filledLayer
     }
     
     func validMove(piece: Piece, offset: CGFloat) -> Bool {
@@ -91,11 +114,12 @@ class Grid: SKSpriteNode {
             else {
                 let position = piece.convert(cell.position, to: self.scene!)
                 let location = (self.scene?.convert(position, to: self))!
-                if location.x < 240 - offset || location.y < 0 - offset {
+                if location.y < 0 - offset {
                     print("first Condition")
                     return false
                 }
-                else if location.x > 600 - offset || location.y > 260 - offset {
+                else if location.x > 600 - offset || location.y > 280 - offset {
+                    print("\(location) + offset: \(offset)")
                     print("second Condition")
                     return false
                 }

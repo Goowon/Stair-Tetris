@@ -35,19 +35,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var currentState: GameState = .debug
     
+    var filledLayerCount = 0
     var timeLimit: CFTimeInterval = 10
     var gridNode: Grid!
     var scoreLabel: SKLabelNode!
-    var timerLabel: SKLabelNode!
     var piece: Piece!
     var pieceArray: ArrayNode!
     var scrollTimer: CFTimeInterval = 10
-    var lockTimer: CFTimeInterval = 3
     let fixedDelta: CFTimeInterval = 1.0 / 60.0 /* 60 FPS */
     var secondFinger = false //newBlock = true
-    var lastScoreAt: CGFloat = -245.5
     var score: Int = 0
-    var rotateArea: SKSpriteNode!
     var touching = false
     var hero: SKSpriteNode!
     var gameOver: SKSpriteNode!
@@ -59,7 +56,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var canShake = false
     var jumpPower: CGFloat = 10
     var jumping = false
-    var lastGround: SKSpriteNode!
     var highScoreLabel: SKLabelNode!
     var sidePower: CGFloat = 3
     var dead = false
@@ -75,8 +71,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         gridNode = childNode(withName: "//gridNode") as! Grid
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
-        timerLabel = childNode(withName: "timerLabel") as! SKLabelNode
-        rotateArea = childNode(withName: "rotateArea") as! SKSpriteNode
         hero = childNode(withName: "//hero") as! SKSpriteNode
         gameOver = childNode(withName: "gameOver") as! SKSpriteNode
         gameOver.isHidden = true
@@ -144,6 +138,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 else {
                     contactB.velocity = CGVector(dx: 0, dy: 0)
                 }
+                if jumpPower != 8 {
+                    hero.color = .cyan
+                }
                 jumpPower = 8
                 sidePower = 3
             }
@@ -155,35 +152,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let location = touch.location(in: self)
         let nodeAtPoint = atPoint(location)
         if nodeAtPoint.name == "gameOver" { return }
-        if !touching && !dead {
+        if !touching && !dead && piece == nil {
             pieceArray.array[0].removeFromParent()
             piece = pieceArray.array[0]
             piece.xScale = 1
             piece.yScale = 1
             addChild(piece)
             piece.position = location
-            if piece.position.x < -10 - offset {
-                piece.position.x = -10 - offset
+            if piece.position.x < -144 - offset {
+                piece.position.x = -144 - offset
             }
-            touching = true
             pieceArray.moveArray()
         }
-        else if touching && nodeAtPoint.name == "rotateArea" {
+        else if touching {
             secondFinger = true
             if piece.type != .square {
                 piece.rotate()
             }
         }
+        touching = true
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if piece != nil && secondFinger != true && !dead {
+        if piece != nil && !secondFinger && !dead {
             let touch = touches.first!
             let location = touch.location(in: self)
             piece.position = location
             //x clamp on left side
-            if piece.position.x < -10 - offset {
-                piece.position.x = -10 - offset
+            if piece.position.x < -144 - offset {
+                piece.position.x = -144 - offset
             }
         }
     }
@@ -198,10 +195,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 gridNode.addPiece(piece: piece,offset: offset)
                 piece.removeFromParent()
                 piece = nil
-                touching = false
                 let sound = SKAction.playSoundFileNamed("NFF-menu-03-a", waitForCompletion: false)
                 self.run(sound)
             }
+            touching = false
         }
     }
     
@@ -212,15 +209,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func resetTimer() {
-        /*
-         let jump = SKAction.run() {
-         let hero = self.hero
-         hero?.physicsBody?.applyImpulse(CGVector(dx: 2, dy: self.jumpPower))
-         }
-         let moveBack = SKAction(named: "movePlayerBack")!
-         moveBack.speed = CGFloat(1.0/(timeLimit-1))
-         let takeOff = SKAction.sequence([moveBack, jump])
-         hero.run(takeOff)*/
         hero?.physicsBody?.applyImpulse(CGVector(dx: sidePower, dy: self.jumpPower))
         jumping = false
         scrollTimer = timeLimit
@@ -230,53 +218,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func shake() {
         if canShake {
             print("I am SHOOK")
-            jumpPower = 12
+            jumpPower = 11
             sidePower = 2
         }
+        canShake = false
+        filledLayerCount = 0
     }
     
-    override func update(_ currentTime: TimeInterval) {/*
-         let stairs = nodes(at: CGPoint(x: hero.position.x + 15, y: hero.position.y))
-         for node in stairs {
-         if node.physicsBody?.categoryBitMask == 2 && !jumping {
-         hero.physicsBody?.applyImpulse(CGVector(dx: 0.25, dy: self.jumpPower))
-         jumping = true
-         }
-         }
-        let ground = nodes(at: CGPoint(x: hero.position.x, y: hero.position.y - 15))
-        for node in ground {
-            if node.physicsBody?.categoryBitMask == 2 {
-                if node != lastGround {
-                    if hero.physicsBody?.velocity == CGVector(dx: 0, dy: 0) {
-                        print("\(lastGround)")
-                        lastGround = node as! SKSpriteNode
-                        jumping = false
-                        //next 2 lines are for the move back then leap method
-                        let moveBack = SKAction(named: "movePlayerBack")!
-                        hero.run(moveBack)
-                    }
-                }
-            }
-        }*/
-        
+    override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        if scrollTimer < 4 && !jumping {
+        if scrollTimer < 3.5 && !jumping {
             jumping = true
             let moveBack = SKAction(named: "movePlayerBack")!
             hero.run(moveBack)
         }
         scrollTheLayer()
         scrollTimer -= fixedDelta
-        timerLabel.text = String(Int(scrollTimer))
         scoreLabel.text = String(score)
+        if filledLayerCount == 1 {
+            canShake = true
+            hero.color = .brown
+        }
         if scrollTimer > 0 {
         }
         else {
-            if timeLimit > 5 {
+            if timeLimit > 4 {
                 timeLimit -= 1
             }
             resetTimer()
-            gridNode.scrollCells()
+            if gridNode.scrollCells() {
+                filledLayerCount += 1
+            }
         }
         if score > highScore {
             highScore = score
