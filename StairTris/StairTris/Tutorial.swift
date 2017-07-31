@@ -8,16 +8,19 @@
 
 import Foundation
 import GameplayKit
+import FirebaseAnalytics
 
 class Tutorial: SKScene, SKPhysicsContactDelegate {
     
     enum GameState {
-        case death, blockPlacement, arrayNode, rotateArea, paused, freePlay
+        case death, blockPlacement, arrayNode, rotateArea, paused, freePlay, doubleJump, useDoubleJump
     }
     
+    var doubleJumpLabel2: SKLabelNode!
     var nextLessonLabel:SKLabelNode!
     var heroLabel: SKLabelNode!
     var blockLabel: SKLabelNode!
+    var pointerLayer: SKSpriteNode!
     var currentGameState: GameState = .death {
         didSet {
             switch currentGameState {
@@ -56,6 +59,23 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
                 darkScreen3.isHidden = true
                 darkScreen4.isHidden = true
                 rotateLabel.isHidden = true
+                break
+            case .doubleJump:
+                darkScreen1.isHidden = true
+                darkScreen2.isHidden = true
+                darkScreen3.isHidden = true
+                darkScreen4.isHidden = true
+                pointerLayer.isHidden = false
+                tapGesture.isHidden = true
+                holdGesture.isHidden = true
+                pointer.isHidden = true
+                nextBlockLabel.isHidden = true
+                doubleJumpLabel.isHidden = false
+                darkScreen5.isHidden = false
+                break
+            case .useDoubleJump:
+                doubleJumpLabel.isHidden = true
+                doubleJumpLabel2.isHidden = false
             default:
                 break
             }
@@ -85,14 +105,25 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
     var jumpPower: CGFloat = 10
     var jumping = false
     var sidePower: CGFloat = 3
-    var darkScreen1, darkScreen2, darkScreen3, darkScreen4: SKSpriteNode!
+    var darkScreen1, darkScreen2, darkScreen3, darkScreen4, darkScreen5: SKSpriteNode!
     var nextButton: MSButtonNode!
     var youDied: SKLabelNode!
     var skipper: MSButtonNode!
     var rotateLabel: SKLabelNode!
     var scaleLocation: CGPoint!
+    var doubleJumpLabel: SKLabelNode!
+    var doubleJumpScroll = false
     
     override func didMove(to view: SKView) {
+        Analytics.logEvent("tutorial_started", parameters: [
+            AnalyticsParameterItemID: "id-startedtutorial" as NSObject,
+            AnalyticsParameterItemName: "startedtutorial" as NSObject,
+            AnalyticsParameterContentType: "cont" as NSObject
+            ])
+        doubleJumpLabel2 = childNode(withName: "doubleJumpLabel2") as! SKLabelNode
+        doubleJumpLabel2.isHidden = true
+        doubleJumpLabel = childNode(withName: "doubleJumpLabel") as! SKLabelNode
+        doubleJumpLabel.isHidden = true
         finishedLabel = childNode(withName: "finishedLabel") as! SKLabelNode
         finishedLabel.isHidden = true
         nextLessonLabel = childNode(withName: "nextLessonLabel") as! SKLabelNode
@@ -114,10 +145,14 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         hero = childNode(withName: "//hero") as! SKSpriteNode
         pieceArray = childNode(withName: "arrayNode") as! ArrayNode
         scrollLayer = childNode(withName: "//scrollLayer")!
+        pointerLayer = childNode(withName: "//pointerLayer") as! SKSpriteNode
+        pointerLayer.isHidden = true
         darkScreen1 = childNode(withName: "darkScreen1") as! SKSpriteNode
         darkScreen2 = childNode(withName: "darkScreen2") as! SKSpriteNode
         darkScreen3 = childNode(withName: "darkScreen3") as! SKSpriteNode
         darkScreen4 = childNode(withName: "darkScreen4") as! SKSpriteNode
+        darkScreen5 = childNode(withName: "darkScreen5") as! SKSpriteNode
+        darkScreen5.isHidden = true
         heroLabel = childNode(withName: "heroLabel") as! SKLabelNode
         blockLabel = childNode(withName: "blockLabel") as! SKLabelNode
         blockLabel.isHidden = true
@@ -154,10 +189,25 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
                 scene.tapGesture.isHidden = true
                 scene.holdGesture.isHidden = true
             }
+            else if self.currentGameState == .arrayNode || self.currentGameState == .freePlay {
+                let scene = Tutorial(fileNamed: "Tutorial")!
+                scene.scaleMode = .aspectFit
+                view.presentScene(scene)
+                scene.currentGameState = .blockPlacement
+                scene.currentGameState = .rotateArea
+                scene.currentGameState = .arrayNode
+                scene.currentGameState = .freePlay
+                scene.currentGameState = .doubleJump
+            }
             else {
                 let scene = MainMenu(fileNamed: "MainMenu")!
                 scene.scaleMode = .aspectFit
                 view.presentScene(scene)
+                Analytics.logEvent("tutorial_finished", parameters: [
+                    AnalyticsParameterItemID: "id-finishedtutorial" as NSObject,
+                    AnalyticsParameterItemName: "finishedtutorial" as NSObject,
+                    AnalyticsParameterContentType: "cont" as NSObject
+                    ])
             }
         }
         
@@ -182,7 +232,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         /* Get references to the physics body parent SKSpriteNode */
         // One of them is hero and the other is the death blocks. else if it is a cell.
         if contactA.categoryBitMask == 1 || contactB.categoryBitMask == 1 {
-            if contactB.categoryBitMask == 4 || contactA.categoryBitMask == 4 {
+            if (contactB.categoryBitMask == 4 || contactA.categoryBitMask == 4) && currentGameState == .death {
                 self.isPaused = true
                 youDied.isHidden = false
             }
@@ -194,6 +244,9 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
                 else {
                     contactB.velocity = CGVector(dx: 0, dy: 0)
                 }
+                if jumpPower != 8 {
+                    hero.color = .cyan
+                }
                 jumpPower = 8
                 sidePower = 3
             }
@@ -202,6 +255,9 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if currentGameState == .death || currentGameState == .paused { }
+        else if currentGameState == .doubleJump && !doubleJumpScroll {
+            doubleJumpScroll = true
+        }
         else if !holdGesture.isHidden && currentGameState == .blockPlacement {
             holdGesture.isHidden = true
         }
@@ -306,20 +362,26 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
             print("I am SHOOK")
             jumpPower = 12
             sidePower = 2
+            canShake = false
+            doubleJumpScroll = true
+            doubleJumpLabel2.isHidden = true
+            darkScreen5.isHidden = true
+            pointer2.isHidden = false
+            finishedLabel.isHidden = false
         }
     }
     
     override func update(_ currentTime: TimeInterval) {
         if score == 5 {
             pointer2.isHidden = false
-            if currentGameState == .freePlay {
+            if currentGameState == .doubleJump {
                 finishedLabel.isHidden = false
             }
             else {
                 nextLessonLabel.isHidden = false
             }
         }
-        if currentGameState == .death {
+        if currentGameState == .death || doubleJumpScroll {
             // Called before each frame is rendered
             if scrollTimer < 1.5 && !jumping {
                 jumping = true
@@ -335,8 +397,16 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
                     timeLimit -= 1
                 }
                 resetTimer()
+                doubleJumpScroll = false
+                if !pointerLayer.isHidden {
+                    pointerLayer.isHidden = true
+                }
                 if gridNode.scrollCells() {
-                    //do nothing.
+                    canShake = true
+                    hero.color = .brown
+                }
+                if currentGameState == .doubleJump {
+                    currentGameState = .useDoubleJump
                 }
             }
         }

@@ -1,0 +1,6 @@
+framework module Pods_StairTris {
+  umbrella header "Pods-StairTris-umbrella.h"
+
+  export *
+  module * { export * }
+}

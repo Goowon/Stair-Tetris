@@ -13,6 +13,7 @@
 		5E452E711F15A077000A75BA /* Piece.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5E452E701F15A077000A75BA /* Piece.sks */; };
 		5E452E731F17DFCD000A75BA /* Cell.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5E452E721F17DFCD000A75BA /* Cell.sks */; };
 		5E452E751F17DFDB000A75BA /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E452E741F17DFDB000A75BA /* Cell.swift */; };
+		5E5258361F2BA38C00D334F0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5E5258351F2BA38C00D334F0 /* GoogleService-Info.plist */; };
 		5E8722D51F19861F004B32EE /* MSButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E8722D41F19861F004B32EE /* MSButtonNode.swift */; };
 		5EC023961F1EAF16005BABB8 /* AlternativeMode.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5EC023951F1EAF16005BABB8 /* AlternativeMode.sks */; };
 		5EC0A5951F153BFF00EE0DD7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC0A5941F153BFF00EE0DD7 /* AppDelegate.swift */; };
@@ -28,6 +29,7 @@
 		5ED226571F1D7C910018CEE4 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED226561F1D7C910018CEE4 /* MainMenu.swift */; };
 		5EF99A631F156F03008BBFB9 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF99A621F156F03008BBFB9 /* Grid.swift */; };
 		5EFDE56F1F1D40FA00D4ABD6 /* ArrayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFDE56E1F1D40FA00D4ABD6 /* ArrayNode.swift */; };
+		A5AF3386A5A6F9F8E82A0874 /* Pods_StairTris.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76367FB114B34C3EEBBE7D15 /* Pods_StairTris.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,7 @@
 		5E452E701F15A077000A75BA /* Piece.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Piece.sks; sourceTree = "<group>"; };
 		5E452E721F17DFCD000A75BA /* Cell.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Cell.sks; sourceTree = "<group>"; };
 		5E452E741F17DFDB000A75BA /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
+		5E5258351F2BA38C00D334F0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5E8722D41F19861F004B32EE /* MSButtonNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSButtonNode.swift; sourceTree = "<group>"; };
 		5EC023951F1EAF16005BABB8 /* AlternativeMode.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = AlternativeMode.sks; sourceTree = "<group>"; };
 		5EC0A5911F153BFF00EE0DD7 /* StairTris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StairTris.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,6 +57,9 @@
 		5ED226561F1D7C910018CEE4 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		5EF99A621F156F03008BBFB9 /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		5EFDE56E1F1D40FA00D4ABD6 /* ArrayNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArrayNode.swift; path = ../ArrayNode.swift; sourceTree = "<group>"; };
+		6B978F07344078A078435155 /* Pods-StairTris.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StairTris.release.xcconfig"; path = "Pods/Target Support Files/Pods-StairTris/Pods-StairTris.release.xcconfig"; sourceTree = "<group>"; };
+		76367FB114B34C3EEBBE7D15 /* Pods_StairTris.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StairTris.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B44703B972448EE14C8D50D0 /* Pods-StairTris.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StairTris.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StairTris/Pods-StairTris.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,17 +67,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5AF3386A5A6F9F8E82A0874 /* Pods_StairTris.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3950251B6EE3B4AE778112C9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				76367FB114B34C3EEBBE7D15 /* Pods_StairTris.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5EC0A5881F153BFF00EE0DD7 = {
 			isa = PBXGroup;
 			children = (
 				5EC0A5931F153BFF00EE0DD7 /* StairTris */,
 				5EC0A5921F153BFF00EE0DD7 /* Products */,
+				A0B139071782985CB3F59B29 /* Pods */,
+				3950251B6EE3B4AE778112C9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -108,8 +125,18 @@
 				5EC0A5A11F153BFF00EE0DD7 /* Assets.xcassets */,
 				5EC0A5A31F153BFF00EE0DD7 /* LaunchScreen.storyboard */,
 				5EC0A5A61F153BFF00EE0DD7 /* Info.plist */,
+				5E5258351F2BA38C00D334F0 /* GoogleService-Info.plist */,
 			);
 			path = StairTris;
+			sourceTree = "<group>";
+		};
+		A0B139071782985CB3F59B29 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B44703B972448EE14C8D50D0 /* Pods-StairTris.debug.xcconfig */,
+				6B978F07344078A078435155 /* Pods-StairTris.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,9 +146,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5EC0A5A91F153BFF00EE0DD7 /* Build configuration list for PBXNativeTarget "StairTris" */;
 			buildPhases = (
+				6F80CF8849B04E3BC8638EB8 /* [CP] Check Pods Manifest.lock */,
 				5EC0A58D1F153BFF00EE0DD7 /* Sources */,
 				5EC0A58E1F153BFF00EE0DD7 /* Frameworks */,
 				5EC0A58F1F153BFF00EE0DD7 /* Resources */,
+				A795B8E5A779394EBED03924 /* [CP] Embed Pods Frameworks */,
+				27DF2B98B74521A9A88BD6BD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -177,6 +207,7 @@
 				5EC0A5971F153BFF00EE0DD7 /* GameScene.sks in Resources */,
 				5E452E731F17DFCD000A75BA /* Cell.sks in Resources */,
 				5EC0A5A21F153BFF00EE0DD7 /* Assets.xcassets in Resources */,
+				5E5258361F2BA38C00D334F0 /* GoogleService-Info.plist in Resources */,
 				5E1769931F26679C00389EDC /* Tutorial.sks in Resources */,
 				5ED226551F1D7C860018CEE4 /* MainMenu.sks in Resources */,
 				5EC023961F1EAF16005BABB8 /* AlternativeMode.sks in Resources */,
@@ -187,6 +218,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		27DF2B98B74521A9A88BD6BD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StairTris/Pods-StairTris-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6F80CF8849B04E3BC8638EB8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A795B8E5A779394EBED03924 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StairTris/Pods-StairTris-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5EC0A58D1F153BFF00EE0DD7 /* Sources */ = {
@@ -323,6 +402,7 @@
 		};
 		5EC0A5AA1F153BFF00EE0DD7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B44703B972448EE14C8D50D0 /* Pods-StairTris.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 4M5S3N6WG2;
@@ -336,6 +416,7 @@
 		};
 		5EC0A5AB1F153BFF00EE0DD7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6B978F07344078A078435155 /* Pods-StairTris.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 4M5S3N6WG2;

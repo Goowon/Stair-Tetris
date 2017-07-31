@@ -8,63 +8,72 @@
 
 import SpriteKit
 import GameplayKit
+import Firebase
 
-extension SKSpriteNode {
-    
-    func addGlow(radius: Float = 30) {
-        let effectNode = SKEffectNode()
-        effectNode.shouldRasterize = true
-        effectNode.name = "effectNode"
-        addChild(effectNode)
-        //does this cause a memory leak?
-        effectNode.addChild(SKSpriteNode(texture: texture))
-        effectNode.filter = CIFilter(name: "CIGaussianBlur", withInputParameters: ["inputRadius":radius])
-    }
-    
-    func removeGlow(){
-        self.childNode(withName: "effectNode")?.removeFromParent()
-    }
-}
-
-enum GameState {
-    case normal, debug
-}
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    // Ads
+    static var viewController: GameViewController!
+    var interstitial: GADInterstitial!
     
-    var currentState: GameState = .debug
-    
+    // Double Jump Mechanic
     var filledLayerCount = 0
-    var timeLimit: CFTimeInterval = 10
-    var gridNode: Grid!
-    var scoreLabel: SKLabelNode!
-    var piece: Piece!
-    var pieceArray: ArrayNode!
-    var scrollTimer: CFTimeInterval = 10
-    let fixedDelta: CFTimeInterval = 1.0 / 60.0 /* 60 FPS */
-    var secondFinger = false //newBlock = true
-    var score: Int = 0
-    var touching = false
-    var hero: SKSpriteNode!
-    var gameOver: SKSpriteNode!
-    var restartButton: MSButtonNode!
-    var mainMenuButton: MSButtonNode!
-    var dieNowButton: MSButtonNode!
-    var scrollLayer: SKNode!
-    var offset: CGFloat = 0
     var canShake = false
     var jumpPower: CGFloat = 10
-    var jumping = false
-    var highScoreLabel: SKLabelNode!
     var sidePower: CGFloat = 3
-    var dead = false
+    
+    // Scroll Mechanic
+    var timeLimit: CFTimeInterval = 10
+    var scrollTimer: CFTimeInterval = 10
+    let fixedDelta: CFTimeInterval = 1.0 / 60.0 /* 60 FPS */
+    var scrollLayer: SKNode!
+    
+    // Grid Placement Mechanic
+    var gridNode: Grid!
+    var piece: Piece!
+    var pieceArray: ArrayNode!
+    var offset: CGFloat = 0
+    
+    // Labels
+    var scoreLabel: SKLabelNode!
+    var score: Int = 0
+    var highScoreLabel: SKLabelNode!
     var highScore: Int {
         get {
             return UserDefaults.standard.integer(forKey: "highScore")
         }
         set(high) {
             UserDefaults.standard.set(high, forKey: "highScore")
+        }
+    }
+    
+    // Touch Mechanic
+    var secondFinger = false //newBlock = true
+    var touching = false
+    
+    // Automatic Mechanics
+    var hero: SKSpriteNode!
+    var gameOver: SKSpriteNode!
+    var jumping = false
+    var dead = false
+    
+    // Buttons
+    var restartButton: MSButtonNode!
+    var mainMenuButton: MSButtonNode!
+    var dieNowButton: MSButtonNode!
+    
+    
+    func loadAd() {
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        interstitial.load(GADRequest())
+    }
+    
+    func showAd() {
+        if interstitial.isReady {
+            interstitial.present(fromRootViewController: GameScene.viewController )
+        } else {
+            print("Ad wasn't ready")
         }
     }
     
@@ -96,16 +105,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scrollLayer = childNode(withName: "//scrollLayer")!
         highScoreLabel = childNode(withName: "//highScoreLabel") as! SKLabelNode
         
-        /*
-         let jump = SKAction.run() {
-         let hero = self.hero
-         hero?.physicsBody?.applyImpulse(CGVector(dx: 2, dy: self.jumpPower))
-         }
-         let moveBack = SKAction(named: "movePlayerBack")!
-         let takeOff = SKAction.sequence([moveBack, jump])
-         takeOff.speed = CGFloat(1.0/(timeLimit-1))
-         hero.run(takeOff)
-         */
+        if arc4random_uniform(1) == 0 {
+            loadAd()
+        }
         
         pieceArray.setUpArray()
         
@@ -129,6 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 gameOver.isHidden = false
                 self.isPaused = true
                 dead = true
+                showAd()
             }
             else if contactB.categoryBitMask == 2 || contactA.categoryBitMask == 2 {
                 if contactA.categoryBitMask == 1 {
@@ -227,6 +230,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        if piece != nil {
+            if gridNode.validMove(piece: piece,offset: offset) {
+                piece.alpha = 1
+            } else {
+                piece.alpha = 0.7
+            }
+        }
         if scrollTimer < 3.5 && !jumping {
             jumping = true
             let moveBack = SKAction(named: "movePlayerBack")!

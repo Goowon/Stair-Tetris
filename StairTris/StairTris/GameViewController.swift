@@ -9,6 +9,7 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import Firebase
 
 class GameViewController: UIViewController {
 
@@ -21,11 +22,18 @@ class GameViewController: UIViewController {
             if let skView = view as? SKView, let scene = skView.scene as? GameScene {
                 scene.shake()
             }
+            if let skView = view as? SKView, let scene = skView.scene as? Tutorial {
+                scene.shake()
+            }
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        FirebaseApp.configure()
+        GADMobileAds.configure(withApplicationID: "ca-app-pub-8750198063494542~1902365925")
+        MainMenu.viewController = self
+        GameScene.viewController = self
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'

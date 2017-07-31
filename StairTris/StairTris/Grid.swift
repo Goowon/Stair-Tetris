@@ -128,7 +128,6 @@ class Grid: SKSpriteNode {
                     return false
                 }
                 if gridArray[Int(location.x + offset)/cellWidth][Int(location.y-40 + offset)/cellHeight].name != "cell" {
-                    print("fourth Condition")
                     valid = true
                 }
             }
