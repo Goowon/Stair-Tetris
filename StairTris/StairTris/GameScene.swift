@@ -38,6 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Labels
     var scoreLabel: SKLabelNode!
     var score: Int = 0
+    var pauseLabel: SKLabelNode!
     var highScoreLabel: SKLabelNode!
     var highScore: Int {
         get {
@@ -62,6 +63,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var restartButton: MSButtonNode!
     var mainMenuButton: MSButtonNode!
     var dieNowButton: MSButtonNode!
+    var pauseButton: MSButtonNode!
     
     
     func loadAd() {
@@ -70,19 +72,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func showAd() {
-        if interstitial.isReady {
+        if let ad = interstitial {
+        if ad.isReady {
             interstitial.present(fromRootViewController: GameScene.viewController )
         } else {
             print("Ad wasn't ready")
         }
+        }
     }
     
     override func didMove(to view: SKView) {
+        // Game Mechanics
         gridNode = childNode(withName: "//gridNode") as! Grid
-        scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
         hero = childNode(withName: "//hero") as! SKSpriteNode
+        // Labels
+        scoreLabel = childNode(withName: "//scoreLabel") as! SKLabelNode
         gameOver = childNode(withName: "gameOver") as! SKSpriteNode
         gameOver.isHidden = true
+        pauseLabel = childNode(withName: "//pauseLabel") as! SKLabelNode
+        // Buttons
         restartButton = childNode(withName: "//restartButton") as! MSButtonNode
         restartButton.selectedHandler = {
             let scene = GameScene(fileNamed: "GameScene")
@@ -100,12 +108,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.gameOver.isHidden = false
             self.isPaused = true
             self.dead = true
+            self.showAd()
+        }
+        pauseButton = childNode(withName: "//pauseButton") as! MSButtonNode
+        pauseButton.selectedHandler = {
+            if self.isPaused {
+                self.pauseLabel.text = "Pause"
+                self.isPaused = false
+            }
+            else {
+                self.pauseLabel.text = "Unpause"
+                self.isPaused = true
+            }
         }
         pieceArray = childNode(withName: "arrayNode") as! ArrayNode
         scrollLayer = childNode(withName: "//scrollLayer")!
         highScoreLabel = childNode(withName: "//highScoreLabel") as! SKLabelNode
         
-        if arc4random_uniform(1) == 0 {
+        if arc4random_uniform(5) == 0 {
             loadAd()
         }
         
@@ -151,6 +171,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if self.isPaused { return }
         let touch = touches.first!
         let location = touch.location(in: self)
         let nodeAtPoint = atPoint(location)
@@ -177,6 +198,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if isPaused { return }
         if piece != nil && !secondFinger && !dead {
             let touch = touches.first!
             let location = touch.location(in: self)
@@ -189,6 +211,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if self.isPaused { return }
         if secondFinger {
             secondFinger = false
         }
@@ -234,7 +257,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if gridNode.validMove(piece: piece,offset: offset) {
                 piece.alpha = 1
             } else {
-                piece.alpha = 0.7
+                piece.alpha = 0.5
             }
         }
         if scrollTimer < 3.5 && !jumping {
@@ -247,7 +270,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.text = String(score)
         if filledLayerCount == 1 {
             canShake = true
-            hero.color = .brown
+            hero.color = .yellow
         }
         if scrollTimer > 0 {
         }

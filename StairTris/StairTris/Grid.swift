@@ -115,16 +115,12 @@ class Grid: SKSpriteNode {
                 let position = piece.convert(cell.position, to: self.scene!)
                 let location = (self.scene?.convert(position, to: self))!
                 if location.y < 0 - offset {
-                    print("first Condition")
                     return false
                 }
                 else if location.x > 600 - offset || location.y > 280 - offset {
-                    print("\(location) + offset: \(offset)")
-                    print("second Condition")
                     return false
                 }
                 else if gridArray[Int(location.x + offset)/cellWidth][Int(location.y + offset)/cellHeight].name != "cell" {
-                    print("third Condition")
                     return false
                 }
                 if gridArray[Int(location.x + offset)/cellWidth][Int(location.y-40 + offset)/cellHeight].name != "cell" {

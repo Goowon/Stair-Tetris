@@ -161,15 +161,25 @@ class Piece: SKSpriteNode {
     
     func colorCells(color: UIColor) {
         cell1.color = color
+        cell1.colorBlendFactor = 1
         cell2.color = color
+        cell2.colorBlendFactor = 1
         cell3.color = color
+        cell3.colorBlendFactor = 1
         cell4.color = color
+        cell4.colorBlendFactor = 1
         cell5.color = color
+        cell5.colorBlendFactor = 1
         cell6.color = color
+        cell6.colorBlendFactor = 1
         cell7.color = color
+        cell7.colorBlendFactor = 1
         cell8.color = color
+        cell8.colorBlendFactor = 1
         cell9.color = color
+        cell9.colorBlendFactor = 1
         cell10.color = color
+        cell10.colorBlendFactor = 1
     }
     
     func setup() {
