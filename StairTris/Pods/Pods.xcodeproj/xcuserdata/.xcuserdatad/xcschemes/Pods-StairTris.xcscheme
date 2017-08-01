@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '07DC71D485DBB7634DF332F34B0AE4F6'
+               BlueprintIdentifier = 'A67D4F388747D4E8A7073E69A9800811'
                BlueprintName = 'Pods-StairTris'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Pods-StairTris.framework'>

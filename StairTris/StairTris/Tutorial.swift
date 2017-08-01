@@ -124,7 +124,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         heroLabel = childNode(withName: "heroLabel") as! SKLabelNode
         skipper = childNode(withName: "skipper") as! MSButtonNode
         skipper.isHidden = true
-        skipper.selectedHandler = {
+        skipper.selectedHandler = { [unowned self] in
             if self.currentGameState == .death {
                 let scene = Tutorial(fileNamed: "Tutorial")!
                 scene.scaleMode = .aspectFit

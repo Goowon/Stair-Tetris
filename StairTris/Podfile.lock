@@ -33,6 +33,8 @@ PODS:
     - FirebaseAnalytics (~> 4.0)
     - FirebaseCore (~> 4.0)
     - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseUI/Auth (4.1.1):
+    - Firebase/Auth
   - Google-Mobile-Ads-SDK (7.21.0)
   - GoogleToolboxForMac/DebugUtils (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
@@ -57,6 +59,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Firebase/Storage
+  - FirebaseUI/Auth
 
 SPEC CHECKSUMS:
   Firebase: 1492bf04e1b73a7353b4fb2cf5a20bac9692f341
@@ -66,11 +69,12 @@ SPEC CHECKSUMS:
   FirebaseDatabase: d829b3a8c3e2ac7a16773c5df226966b0805dfc2
   FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
   FirebaseStorage: 8110a1ed2034c8fbfd83890d2acc9cdbbd99afec
+  FirebaseUI: 5ebebe2c096c71f20abd1d43d0388958373bdaa0
   Google-Mobile-Ads-SDK: 4a6f1b43c8cc0e1e95a3b59d9f52a01671c6f9f3
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMSessionFetcher: 5ad62e8200fa00ed011fe5e08d27fef72c5b1429
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
 
-PODFILE CHECKSUM: c1b842b1fd02e81dc3f2016f88b32aea3801d804
+PODFILE CHECKSUM: c22b35a9e1dfa2a12af58b91a853ff54bdb80a39
 
 COCOAPODS: 1.2.0

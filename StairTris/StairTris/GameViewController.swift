@@ -30,8 +30,6 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        FirebaseApp.configure()
-        GADMobileAds.configure(withApplicationID: "ca-app-pub-8750198063494542~1902365925")
         MainMenu.viewController = self
         GameScene.viewController = self
         

@@ -14,7 +14,7 @@ import Firebase
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Ads
-    static var viewController: GameViewController!
+    static weak var viewController: GameViewController!
     var interstitial: GADInterstitial!
     
     // Double Jump Mechanic
@@ -72,12 +72,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func showAd() {
-        if let ad = interstitial {
-        if ad.isReady {
-            interstitial.present(fromRootViewController: GameScene.viewController )
-        } else {
-            print("Ad wasn't ready")
+        if let user = User.current,
+            user.adpass {
+            return
         }
+        if let ad = interstitial {
+            if ad.isReady {
+                interstitial.present(fromRootViewController: GameScene.viewController )
+            } else {
+                print("Ad wasn't ready")
+            }
         }
     }
     
@@ -104,14 +108,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             view.presentScene(scene)
         }
         dieNowButton = childNode(withName: "//dieNowButton") as! MSButtonNode
-        dieNowButton.selectedHandler = {
+        dieNowButton.selectedHandler = { [unowned self] in
             self.gameOver.isHidden = false
             self.isPaused = true
             self.dead = true
-            self.showAd()
+            if arc4random_uniform(5) == 0 {
+                self.showAd()
+            }
         }
         pauseButton = childNode(withName: "//pauseButton") as! MSButtonNode
-        pauseButton.selectedHandler = {
+        pauseButton.selectedHandler = { [unowned self] in
             if self.isPaused {
                 self.pauseLabel.text = "Pause"
                 self.isPaused = false
@@ -125,9 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scrollLayer = childNode(withName: "//scrollLayer")!
         highScoreLabel = childNode(withName: "//highScoreLabel") as! SKLabelNode
         
-        if arc4random_uniform(5) == 0 {
-            loadAd()
-        }
+        loadAd()
         
         pieceArray.setUpArray()
         

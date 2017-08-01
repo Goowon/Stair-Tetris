@@ -10,6 +10,10 @@
 		5E1769911F22A9A900389EDC /* NFF-menu-03-a.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5E1769901F22A9A900389EDC /* NFF-menu-03-a.wav */; };
 		5E1769931F26679C00389EDC /* Tutorial.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5E1769921F26679C00389EDC /* Tutorial.sks */; };
 		5E1769951F266DFD00389EDC /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1769941F266DFD00389EDC /* Tutorial.swift */; };
+		5E3BDC651F30F9DD002F1200 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3BDC631F30F9DD002F1200 /* User.swift */; };
+		5E3BDC661F30F9DD002F1200 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3BDC641F30F9DD002F1200 /* UserService.swift */; };
+		5E3BDC681F30FC10002F1200 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3BDC671F30FC10002F1200 /* Settings.swift */; };
+		5E3BDC6A1F30FC21002F1200 /* Settings.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5E3BDC691F30FC21002F1200 /* Settings.sks */; };
 		5E452E711F15A077000A75BA /* Piece.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5E452E701F15A077000A75BA /* Piece.sks */; };
 		5E452E731F17DFCD000A75BA /* Cell.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5E452E721F17DFCD000A75BA /* Cell.sks */; };
 		5E452E751F17DFDB000A75BA /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E452E741F17DFDB000A75BA /* Cell.swift */; };
@@ -36,6 +40,10 @@
 		5E1769901F22A9A900389EDC /* NFF-menu-03-a.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "NFF-menu-03-a.wav"; sourceTree = "<group>"; };
 		5E1769921F26679C00389EDC /* Tutorial.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Tutorial.sks; sourceTree = "<group>"; };
 		5E1769941F266DFD00389EDC /* Tutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
+		5E3BDC631F30F9DD002F1200 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		5E3BDC641F30F9DD002F1200 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		5E3BDC671F30FC10002F1200 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		5E3BDC691F30FC21002F1200 /* Settings.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Settings.sks; sourceTree = "<group>"; };
 		5E452E701F15A077000A75BA /* Piece.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Piece.sks; sourceTree = "<group>"; };
 		5E452E721F17DFCD000A75BA /* Cell.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Cell.sks; sourceTree = "<group>"; };
 		5E452E741F17DFDB000A75BA /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
@@ -108,6 +116,7 @@
 				5EC0A5981F153BFF00EE0DD7 /* Actions.sks */,
 				5EC0A5961F153BFF00EE0DD7 /* GameScene.sks */,
 				5E1769921F26679C00389EDC /* Tutorial.sks */,
+				5E3BDC691F30FC21002F1200 /* Settings.sks */,
 				5EC023951F1EAF16005BABB8 /* AlternativeMode.sks */,
 				5ED226541F1D7C860018CEE4 /* MainMenu.sks */,
 				5E452E701F15A077000A75BA /* Piece.sks */,
@@ -117,6 +126,9 @@
 				5EF99A621F156F03008BBFB9 /* Grid.swift */,
 				5E452E741F17DFDB000A75BA /* Cell.swift */,
 				5ED226561F1D7C910018CEE4 /* MainMenu.swift */,
+				5E3BDC671F30FC10002F1200 /* Settings.swift */,
+				5E3BDC631F30F9DD002F1200 /* User.swift */,
+				5E3BDC641F30F9DD002F1200 /* UserService.swift */,
 				5EFDE56E1F1D40FA00D4ABD6 /* ArrayNode.swift */,
 				5EC0A5B21F154C4B00EE0DD7 /* Piece.swift */,
 				5E8722D41F19861F004B32EE /* MSButtonNode.swift */,
@@ -204,6 +216,7 @@
 			files = (
 				5E452E711F15A077000A75BA /* Piece.sks in Resources */,
 				5EC0A5A01F153BFF00EE0DD7 /* Main.storyboard in Resources */,
+				5E3BDC6A1F30FC21002F1200 /* Settings.sks in Resources */,
 				5EC0A5971F153BFF00EE0DD7 /* GameScene.sks in Resources */,
 				5E452E731F17DFCD000A75BA /* Cell.sks in Resources */,
 				5EC0A5A21F153BFF00EE0DD7 /* Assets.xcassets in Resources */,
@@ -274,14 +287,17 @@
 			files = (
 				5EC0A5B31F154C4B00EE0DD7 /* Piece.swift in Sources */,
 				5ED226571F1D7C910018CEE4 /* MainMenu.swift in Sources */,
+				5E3BDC681F30FC10002F1200 /* Settings.swift in Sources */,
 				5EC0A59B1F153BFF00EE0DD7 /* GameScene.swift in Sources */,
 				5EC0A59D1F153BFF00EE0DD7 /* GameViewController.swift in Sources */,
 				5E8722D51F19861F004B32EE /* MSButtonNode.swift in Sources */,
 				5EF99A631F156F03008BBFB9 /* Grid.swift in Sources */,
 				5EC0A5951F153BFF00EE0DD7 /* AppDelegate.swift in Sources */,
 				5E452E751F17DFDB000A75BA /* Cell.swift in Sources */,
+				5E3BDC661F30F9DD002F1200 /* UserService.swift in Sources */,
 				5EFDE56F1F1D40FA00D4ABD6 /* ArrayNode.swift in Sources */,
 				5E1769951F266DFD00389EDC /* Tutorial.swift in Sources */,
+				5E3BDC651F30F9DD002F1200 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

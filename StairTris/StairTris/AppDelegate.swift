@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        FirebaseApp.configure()
+        GADMobileAds.configure(withApplicationID: "ca-app-pub-8750198063494542~1902365925")
+        
+        /* If they have a user saved to UserDefaults, load it when the app starts */
+        if Auth.auth().currentUser != nil,
+            let userData = UserDefaults.standard.object(forKey: "currentUser") as? Data,
+            let user = NSKeyedUnarchiver.unarchiveObject(with: userData) as? User {
+                User.setCurrent(user)
+        }
+
         return true
     }
 
