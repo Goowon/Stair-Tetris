@@ -424,7 +424,7 @@
 				DEVELOPMENT_TEAM = 4M5S3N6WG2;
 				INFOPLIST_FILE = StairTris/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Hong-George.StairTris";
+				PRODUCT_BUNDLE_IDENTIFIER = Hong.StairTris;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -438,7 +438,7 @@
 				DEVELOPMENT_TEAM = 4M5S3N6WG2;
 				INFOPLIST_FILE = StairTris/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Hong-George.StairTris";
+				PRODUCT_BUNDLE_IDENTIFIER = Hong.StairTris;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

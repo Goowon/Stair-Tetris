@@ -34,7 +34,9 @@ class ArrayNode: SKSpriteNode {
         for index in 0 ..< columns {
             if index < 4 {
                 array[index] = array[index + 1]
-                array[index].position.x = CGFloat(index*cellWidth + cellWidth/2)
+                let moveLeft = SKAction(named: "Move Left")!
+                array[index].run(moveLeft)
+                //array[index].position.x = CGFloat(index*cellWidth + cellWidth/2)
             }
             if index == 4 {
                 let piece = (SKScene(fileNamed: "Piece")?.childNode(withName: "piece") as! SKSpriteNode).copy() as! Piece

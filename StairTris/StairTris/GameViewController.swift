@@ -10,6 +10,8 @@ import UIKit
 import SpriteKit
 import GameplayKit
 import Firebase
+import AVFoundation
+
 
 class GameViewController: UIViewController {
 
@@ -30,6 +32,12 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // Let Sound Mix
+        do { try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
+            try AVAudioSession.sharedInstance().setActive(true) } catch let error as NSError { print(error) }
+        //
+        
         MainMenu.viewController = self
         GameScene.viewController = self
         

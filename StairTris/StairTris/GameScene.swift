@@ -65,6 +65,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var dieNowButton: MSButtonNode!
     var pauseButton: MSButtonNode!
     
+    //Settings
+    static var playSound: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "playSounds")
+        }
+        set(use) {
+            UserDefaults.standard.set(use, forKey: "playSounds")
+        }
+    }
+    
     
     func loadAd() {
         interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
@@ -86,6 +96,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
+        // Initialize Sound Use
+        if GameScene.playSound == nil {
+            GameScene.playSound = true
+        }
+        
         // Game Mechanics
         gridNode = childNode(withName: "//gridNode") as! Grid
         hero = childNode(withName: "//hero") as! SKSpriteNode
@@ -112,7 +127,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.gameOver.isHidden = false
             self.isPaused = true
             self.dead = true
-            if arc4random_uniform(5) == 0 {
+            if arc4random_uniform(4) == 0 {
                 self.showAd()
             }
         }
@@ -225,8 +240,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 gridNode.addPiece(piece: piece,offset: offset)
                 piece.removeFromParent()
                 piece = nil
-                let sound = SKAction.playSoundFileNamed("NFF-menu-03-a", waitForCompletion: false)
-                self.run(sound)
+                if GameScene.playSound {
+                    let sound = SKAction.playSoundFileNamed("NFF-menu-03-a", waitForCompletion: false)
+                    self.run(sound)
+                }
             }
             touching = false
         }
@@ -243,6 +260,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         jumping = false
         scrollTimer = timeLimit
         offset = 0
+        let unsquish = SKAction(named: "Unsquish")!
+        hero.run(unsquish)
     }
     
     func shake() {
@@ -267,7 +286,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if scrollTimer < 3.5 && !jumping {
             jumping = true
             let moveBack = SKAction(named: "movePlayerBack")!
-            hero.run(moveBack)
+            let squish = SKAction(named: "Squish")!
+            let sequence = SKAction.sequence([moveBack, squish])
+            hero.run(sequence)
+            
         }
         scrollTheLayer()
         scrollTimer -= fixedDelta

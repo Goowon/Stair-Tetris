@@ -75,7 +75,7 @@ class Piece: SKSpriteNode {
                 cell4.position.y -= 20
                 cell5.position.y -= 20
             case .l:
-                colorCells(color: .purple)
+                colorCells(color: .red)
                 cell1.isHidden = true
                 cell3.isHidden = true
                 cell4.isHidden = true
@@ -115,15 +115,6 @@ class Piece: SKSpriteNode {
             }
         }
     }
-    /*
-    var rotation: Orientation = .up {
-        didSet {
-            switch rotation {
-            case up
-            }
-        }
-    }
-    */
     
     var cell1: SKSpriteNode!
     var cell2: SKSpriteNode!
@@ -183,7 +174,7 @@ class Piece: SKSpriteNode {
     }
     
     func setup() {
-        /*type = .square*/type = PieceType.randomType()
+        type = PieceType.randomType()
     }
     
     /* You are required to implement this for your subclass to work */

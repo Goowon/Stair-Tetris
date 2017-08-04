@@ -13,10 +13,16 @@ import FirebaseAuthUI
 
 class Settings: SKScene {
     
+    // Buttons
     var backButton: MSButtonNode!
     var removeAdsButton: MSButtonNode!
+    var soundButton: MSButtonNode!
+    
+    // Labels
+    var soundLabel: SKLabelNode!
     
     override func didMove(to view: SKView) {
+        soundLabel = childNode(withName: "//soundLabel") as! SKLabelNode
         removeAdsButton = childNode(withName: "removeAdsButton") as! MSButtonNode
         removeAdsButton.selectedHandler =  { [unowned self] in
             guard let authUI = FUIAuth.defaultAuthUI() else {
@@ -31,6 +37,17 @@ class Settings: SKScene {
             let scene = MainMenu(fileNamed: "MainMenu")
             scene?.scaleMode = .aspectFit
             view.presentScene(scene)
+        }
+        soundButton = childNode(withName: "soundButton") as! MSButtonNode
+        soundButton.selectedHandler = { [unowned self] in
+            if GameScene.playSound {
+                GameScene.playSound = false
+                self.soundLabel.text = "Turn Sound On"
+            }
+            else {
+                GameScene.playSound = true
+                self.soundLabel.text = "Turn Sound Off"
+            }
         }
     }
 }
