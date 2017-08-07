@@ -202,7 +202,6 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
                     contactB.velocity = CGVector(dx: 0, dy: 0)
                 }
                 if jumpPower != 8 {
-                    hero.color = .cyan
                     if currentGameState == .useDoubleJump {
                         pointer2.isHidden = false
                         finishedLabel.isHidden = false
@@ -282,7 +281,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
             secondFinger = false
         }
         else if piece != nil {
-            if gridNode.validMove(piece: piece,offset: offset) {
+            if gridNode.validMove(piece: piece,offset: offset, hero: hero) {
                 score += 1
                 gridNode.addPiece(piece: piece,offset: offset)
                 piece.removeFromParent()
@@ -321,7 +320,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         if piece != nil {
-            if gridNode.validMove(piece: piece,offset: offset) {
+            if gridNode.validMove(piece: piece,offset: offset, hero: hero) {
                 piece.alpha = 1
             } else {
                 piece.alpha = 0.7
@@ -359,7 +358,6 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
                 }
                 if gridNode.scrollCells() {
                     canShake = true
-                    hero.color = .yellow
                 }
                 if currentGameState == .paused {
                     currentGameState = .useDoubleJump

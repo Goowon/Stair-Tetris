@@ -10,6 +10,7 @@ import Foundation
 import SpriteKit
 import GameplayKit
 import FirebaseAuthUI
+import StoreKit
 
 class Settings: SKScene {
     
@@ -24,13 +25,35 @@ class Settings: SKScene {
     override func didMove(to view: SKView) {
         soundLabel = childNode(withName: "//soundLabel") as! SKLabelNode
         removeAdsButton = childNode(withName: "removeAdsButton") as! MSButtonNode
-        removeAdsButton.selectedHandler =  { [unowned self] in
-            guard let authUI = FUIAuth.defaultAuthUI() else {
+        removeAdsButton.selectedHandler =  {
+            /*guard let authUI = FUIAuth.defaultAuthUI() else {
                 return
             }
             authUI.delegate = self
             let authViewController = authUI.authViewController()
-            MainMenu.viewController.present(authViewController, animated: true)
+            MainMenu.viewController.present(authViewController, animated: true)*/
+            let productID = Products.removeAds
+            var product: SKProduct?
+            Products.store.requestProducts { success, products in
+                if success {
+                    for prod in products! {
+                        print(prod.productIdentifier)
+                    }
+                    product = products!.first(where: {product in product.productIdentifier == productID})
+                    if Products.store.isProductPurchased(productID) {
+                        print("Should display message to user about ads already removed (or disable this button entirely)")
+                        return
+                    } else if StoreService.canMakePayments() {
+                        if let product = product {
+                            Products.store.buyProduct(product)
+                        } else {
+                            print("Should display message to user about failed to find product")
+                        }
+                    } else {
+                        print("Should display message to user about unable to make payments")
+                    }
+                }
+            }
         }
         backButton = childNode(withName: "backButton") as! MSButtonNode
         backButton.selectedHandler = {
@@ -40,13 +63,13 @@ class Settings: SKScene {
         }
         soundButton = childNode(withName: "soundButton") as! MSButtonNode
         soundButton.selectedHandler = { [unowned self] in
-            if GameScene.playSound {
-                GameScene.playSound = false
-                self.soundLabel.text = "Turn Sound On"
+            if GameScene.disableSound {
+                GameScene.disableSound = false
+                self.soundLabel.text = "Turn Sound Off"
             }
             else {
-                GameScene.playSound = true
-                self.soundLabel.text = "Turn Sound Off"
+                GameScene.disableSound = true
+                self.soundLabel.text = "Turn Sound On"
             }
         }
     }

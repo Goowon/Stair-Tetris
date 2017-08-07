@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let user = NSKeyedUnarchiver.unarchiveObject(with: userData) as? User {
                 User.setCurrent(user)
         }
-
+        Products.store.restorePurchases()
         return true
     }
 

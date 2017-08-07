@@ -107,13 +107,13 @@ class Grid: SKSpriteNode {
         return filledLayer
     }
     
-    func validMove(piece: Piece, offset: CGFloat) -> Bool {
+    func validMove(piece: Piece, offset: CGFloat, hero: SKSpriteNode) -> Bool {
         var valid = false
         for cell in piece.children as! [SKSpriteNode] {
             if cell.isHidden { continue }
             else {
-                let position = piece.convert(cell.position, to: self.scene!)
-                let location = (self.scene?.convert(position, to: self))!
+                let location = piece.convert(cell.position, to: self)
+                let heroLocation = hero.parent!.convert(hero.position, to: self)
                 if location.y < 0 - offset {
                     return false
                 }
@@ -121,6 +121,10 @@ class Grid: SKSpriteNode {
                     return false
                 }
                 else if gridArray[Int(location.x + offset)/cellWidth][Int(location.y + offset)/cellHeight].name != "cell" {
+                    return false
+                }
+                else if location.x <= heroLocation.x {
+                    print("condition")
                     return false
                 }
                 if gridArray[Int(location.x + offset)/cellWidth][Int(location.y-40 + offset)/cellHeight].name != "cell" {

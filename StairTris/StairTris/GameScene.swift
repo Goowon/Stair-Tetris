@@ -66,12 +66,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var pauseButton: MSButtonNode!
     
     //Settings
-    static var playSound: Bool {
+    static var disableSound: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: "playSounds")
+            return UserDefaults.standard.bool(forKey: "disableSounds")
         }
         set(use) {
-            UserDefaults.standard.set(use, forKey: "playSounds")
+            UserDefaults.standard.set(use, forKey: "disableSounds")
         }
     }
     
@@ -82,8 +82,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func showAd() {
-        if let user = User.current,
-            user.adpass {
+        if Products.store.isProductPurchased(Products.removeAds) {
             return
         }
         if let ad = interstitial {
@@ -96,10 +95,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
-        // Initialize Sound Use
-        if GameScene.playSound == nil {
-            GameScene.playSound = true
-        }
         
         // Game Mechanics
         gridNode = childNode(withName: "//gridNode") as! Grid
@@ -235,12 +230,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             secondFinger = false
         }
         else if piece != nil {
-            if gridNode.validMove(piece: piece,offset: offset) {
+            if gridNode.validMove(piece: piece,offset: offset, hero: hero) {
                 score += 1
                 gridNode.addPiece(piece: piece,offset: offset)
                 piece.removeFromParent()
                 piece = nil
-                if GameScene.playSound {
+                if !GameScene.disableSound {
                     let sound = SKAction.playSoundFileNamed("NFF-menu-03-a", waitForCompletion: false)
                     self.run(sound)
                 }
@@ -277,7 +272,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         if piece != nil {
-            if gridNode.validMove(piece: piece,offset: offset) {
+            if gridNode.validMove(piece: piece,offset: offset, hero: hero) {
                 piece.alpha = 1
             } else {
                 piece.alpha = 0.5

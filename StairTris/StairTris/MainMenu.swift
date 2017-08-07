@@ -67,9 +67,8 @@ class MainMenu: SKScene {
     func showAd() {
         print("show ad")
         /* If User.current is not nil, and that user has bought the ad pass */
-        if let user = User.current,
-            user.adpass {
-                return
+        if Products.store.isProductPurchased(Products.removeAds) {
+            return
         }
         bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerLandscape)
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
