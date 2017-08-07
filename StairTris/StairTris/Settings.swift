@@ -20,10 +20,8 @@ class Settings: SKScene {
     var soundButton: MSButtonNode!
     
     // Labels
-    var soundLabel: SKLabelNode!
     
     override func didMove(to view: SKView) {
-        soundLabel = childNode(withName: "//soundLabel") as! SKLabelNode
         removeAdsButton = childNode(withName: "removeAdsButton") as! MSButtonNode
         removeAdsButton.selectedHandler =  {
             /*guard let authUI = FUIAuth.defaultAuthUI() else {
@@ -65,11 +63,11 @@ class Settings: SKScene {
         soundButton.selectedHandler = { [unowned self] in
             if GameScene.disableSound {
                 GameScene.disableSound = false
-                self.soundLabel.text = "Turn Sound Off"
+                self.soundButton.texture = SKTexture(imageNamed: "b_Sound1")
             }
             else {
+                self.soundButton.texture = SKTexture(imageNamed: "b_Sound1_Inactive")
                 GameScene.disableSound = true
-                self.soundLabel.text = "Turn Sound On"
             }
         }
     }

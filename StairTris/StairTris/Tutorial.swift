@@ -341,7 +341,9 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
             if scrollTimer < 1.5 && !jumping {
                 jumping = true
                 let moveBack = SKAction(named: "FasterJump")!
-                hero.run(moveBack)
+                let squish = SKAction(named: "Squish")!
+                let sequence = SKAction.sequence([moveBack, squish])
+                hero.run(sequence)
             }
             scrollTheLayer()
             scrollTimer -= fixedDelta

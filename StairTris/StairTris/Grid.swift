@@ -36,6 +36,8 @@ class Grid: SKSpriteNode {
     }
     
     func populateGrid() {
+        var startCellHere = false
+        var addingNode: Cell = Cell()
         /* Populate the grid with cells */
         
         /* Loop through columns */
@@ -46,14 +48,24 @@ class Grid: SKSpriteNode {
             
             /* Loop through rows */
             for gridY in 0..<rows {
-                let nodeAtPoint = atPoint(CGPoint(x: gridX*cellWidth + cellWidth/2,y: gridY*cellHeight+cellHeight/2))
-                if nodeAtPoint.name == "startingCell"{
-                    gridArray[gridX].append(nodeAtPoint as! Cell)
+                let nodesAt = nodes(at: CGPoint(x: gridX*cellWidth + cellWidth/2,y: gridY*cellHeight+cellHeight/2))
+                //let nodeAtPoint = atPoint(CGPoint(x: gridX*cellWidth + cellWidth/2,y: gridY*cellHeight+cellHeight/2))
+                for node in nodesAt {
+                    if node.name == "startingCell" {
+                        startCellHere = true
+                        addingNode = node as! Cell
+                    }
+                }
+                if startCellHere {
+                    gridArray[gridX].append(addingNode)
+                    startCellHere = false
                 }
                     /* Create a new cell at row / column position */
                 else {
                     addCellAtGrid(x:gridX, y:gridY)
+                    startCellHere = false
                 }
+                
             }
         }
     }
@@ -82,16 +94,16 @@ class Grid: SKSpriteNode {
                         if gridArray[gridX][gridY].name != "cell" {
                             trackingCells = true
                         }
-        
+                        
                     }
                 }
                 else {
                     gridArray[gridX-1][gridY-1] = gridArray[gridX][gridY]
                     //uncomment to make it slide left then down.
                     /*let moveRight = SKAction(named:"moveRight")!
-                    let moveDown = SKAction(named:"moveDown")!
-                    let moveSequence = SKAction.sequence([moveRight,moveDown])
-                    gridArray[gridX][gridY].run(moveSequence)*/
+                     let moveDown = SKAction(named:"moveDown")!
+                     let moveSequence = SKAction.sequence([moveRight,moveDown])
+                     gridArray[gridX][gridY].run(moveSequence)*/
                 }
                 if gridX == columns-1 || gridY == rows-1 {
                     let cell = (SKScene(fileNamed: "Cell")?.childNode(withName: "cell") as! SKSpriteNode).copy() as! Cell

@@ -38,7 +38,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Labels
     var scoreLabel: SKLabelNode!
     var score: Int = 0
-    var pauseLabel: SKLabelNode!
     var highScoreLabel: SKLabelNode!
     var highScore: Int {
         get {
@@ -64,6 +63,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var mainMenuButton: MSButtonNode!
     var dieNowButton: MSButtonNode!
     var pauseButton: MSButtonNode!
+    var playButton: MSButtonNode!
     
     //Settings
     static var disableSound: Bool {
@@ -103,7 +103,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel = childNode(withName: "//scoreLabel") as! SKLabelNode
         gameOver = childNode(withName: "gameOver") as! SKSpriteNode
         gameOver.isHidden = true
-        pauseLabel = childNode(withName: "//pauseLabel") as! SKLabelNode
         // Buttons
         restartButton = childNode(withName: "//restartButton") as! MSButtonNode
         restartButton.selectedHandler = {
@@ -128,14 +127,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         pauseButton = childNode(withName: "//pauseButton") as! MSButtonNode
         pauseButton.selectedHandler = { [unowned self] in
-            if self.isPaused {
-                self.pauseLabel.text = "Pause"
-                self.isPaused = false
-            }
-            else {
-                self.pauseLabel.text = "Unpause"
-                self.isPaused = true
-            }
+            self.pauseButton.isHidden = true
+            self.playButton.isHidden = false
+            self.isPaused = true
+    
+        }
+        playButton = childNode(withName: "//playButton") as! MSButtonNode
+        playButton.isHidden = true
+        playButton.selectedHandler = { [unowned self] in
+            self.playButton.isHidden = true
+            self.pauseButton.isHidden = false
+            self.isPaused = false
         }
         pieceArray = childNode(withName: "arrayNode") as! ArrayNode
         scrollLayer = childNode(withName: "//scrollLayer")!
