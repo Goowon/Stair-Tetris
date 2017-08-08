@@ -58,6 +58,8 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    var flames: SKSpriteNode!
+    var backButton: MSButtonNode!
     var finishedLabel: SKLabelNode!
     var holdGesture: SKSpriteNode!
     var tapGesture: SKSpriteNode!
@@ -94,6 +96,15 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
             AnalyticsParameterItemName: "startedtutorial" as NSObject,
             AnalyticsParameterContentType: "cont" as NSObject
             ])
+        backButton = childNode(withName: "backButton") as! MSButtonNode
+        if !MainMenu.ranTutorial {
+            backButton.isHidden = true
+        }
+        backButton.selectedHandler = {
+            let scene = MainMenu(fileNamed: "MainMenu")
+            scene?.scaleMode = .aspectFit
+            view.presentScene(scene)
+        }
         doubleJumpLabel2 = childNode(withName: "doubleJumpLabel2") as! SKLabelNode
         doubleJumpLabel2.isHidden = true
         doubleJumpLabel = childNode(withName: "doubleJumpLabel") as! SKLabelNode
@@ -169,6 +180,8 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
                     ])
             }
         }
+        flames = childNode(withName: "//flames") as! SKSpriteNode
+        flames.isHidden = true
         
         pieceArray.setUpArray()
         
@@ -303,7 +316,9 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         hero?.physicsBody?.applyImpulse(CGVector(dx: sidePower, dy: self.jumpPower))
         jumping = false
         scrollTimer = timeLimit
-        offset = 0
+        let unsquish = SKAction(named: "Unsquish")!
+        hero.run(unsquish)
+        
     }
     
     func shake() {
@@ -315,6 +330,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
             doubleJumpScroll = true
             doubleJumpLabel2.isHidden = true
             darkScreen5.isHidden = true
+            flames.isHidden = true
         }
     }
     
@@ -360,6 +376,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
                 }
                 if gridNode.scrollCells() {
                     canShake = true
+                    flames.isHidden = false
                 }
                 if currentGameState == .paused {
                     currentGameState = .useDoubleJump

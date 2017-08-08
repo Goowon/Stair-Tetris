@@ -71,9 +71,11 @@ class MainMenu: SKScene {
             return
         }
         bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerLandscape)
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.adUnitID = "ca-app-pub-8750198063494542/5405183582"
         bannerView.rootViewController = MainMenu.viewController
-        bannerView.load(GADRequest())
+        let request = GADRequest()
+        request.testDevices = ["21174a67009c04267108ace0eda5f891"] // comment when releasing
+        bannerView.load(request)
         view!.addSubview(bannerView)
     }
     

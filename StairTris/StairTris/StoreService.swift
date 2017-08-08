@@ -150,7 +150,7 @@ extension StoreService: SKPaymentTransactionObserver {
         print("fail...")
         if let transactionError = transaction.error as NSError? {
             if transactionError.code != SKError.paymentCancelled.rawValue {
-                print("Transaction Error: \(transaction.error?.localizedDescription)")
+                print("Transaction Error: \(transactionError.localizedDescription)")
             }
         }
         

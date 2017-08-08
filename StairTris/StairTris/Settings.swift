@@ -60,6 +60,12 @@ class Settings: SKScene {
             view.presentScene(scene)
         }
         soundButton = childNode(withName: "soundButton") as! MSButtonNode
+        if GameScene.disableSound {
+            self.soundButton.texture = SKTexture(imageNamed: "b_Sound1_Inactive")
+        }
+        else {
+            self.soundButton.texture = SKTexture(imageNamed: "b_Sound1")
+        }
         soundButton.selectedHandler = { [unowned self] in
             if GameScene.disableSound {
                 GameScene.disableSound = false

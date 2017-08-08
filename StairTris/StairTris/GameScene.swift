@@ -36,6 +36,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var offset: CGFloat = 0
     
     // Labels
+    var background: SKSpriteNode!
+    var stairTrisIcon: SKSpriteNode!
     var scoreLabel: SKLabelNode!
     var score: Int = 0
     var highScoreLabel: SKLabelNode!
@@ -53,6 +55,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var touching = false
     
     // Automatic Mechanics
+    var flames: SKSpriteNode!
     var hero: SKSpriteNode!
     var gameOver: SKSpriteNode!
     var jumping = false
@@ -77,8 +80,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func loadAd() {
-        interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
-        interstitial.load(GADRequest())
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-8750198063494542/8475057255")
+        let request = GADRequest()
+        request.testDevices = ["21174a67009c04267108ace0eda5f891"] // comment when releasing
+        interstitial.load(request)
     }
     
     func showAd() {
@@ -97,9 +102,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         
         // Game Mechanics
+        flames = childNode(withName: "//flames") as! SKSpriteNode
+        flames.isHidden = true
         gridNode = childNode(withName: "//gridNode") as! Grid
         hero = childNode(withName: "//hero") as! SKSpriteNode
         // Labels
+        background = childNode(withName: "background") as! SKSpriteNode
+        stairTrisIcon = childNode(withName: "stairTrisIcon") as! SKSpriteNode
+        stairTrisIcon.isHidden = true
         scoreLabel = childNode(withName: "//scoreLabel") as! SKLabelNode
         gameOver = childNode(withName: "gameOver") as! SKSpriteNode
         gameOver.isHidden = true
@@ -130,7 +140,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.pauseButton.isHidden = true
             self.playButton.isHidden = false
             self.isPaused = true
-    
+            self.background.zPosition = 100
+            self.stairTrisIcon.isHidden = false
         }
         playButton = childNode(withName: "//playButton") as! MSButtonNode
         playButton.isHidden = true
@@ -138,6 +149,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.playButton.isHidden = true
             self.pauseButton.isHidden = false
             self.isPaused = false
+            self.background.zPosition = -10
+            self.stairTrisIcon.isHidden = true
         }
         pieceArray = childNode(withName: "arrayNode") as! ArrayNode
         scrollLayer = childNode(withName: "//scrollLayer")!
@@ -176,9 +189,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 else {
                     contactB.velocity = CGVector(dx: 0, dy: 0)
-                }
-                if jumpPower != 8 {
-                    hero.color = .cyan
                 }
                 jumpPower = 8
                 sidePower = 3
@@ -269,6 +279,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         canShake = false
         filledLayerCount = 0
+        flames.isHidden = true
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -293,7 +304,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.text = String(score)
         if filledLayerCount == 1 {
             canShake = true
-            hero.color = .yellow
+            flames.isHidden = false
         }
         if scrollTimer > 0 {
         }
