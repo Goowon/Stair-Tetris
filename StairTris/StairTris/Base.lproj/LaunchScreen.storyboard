@@ -1,7 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -13,10 +18,46 @@
                         <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                    <view key="view" contentMode="scaleToFill" id="AXA-cJ-QBs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Copyright © 2017 George Hong. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="O3U-Ft-BNS">
+                                <rect key="frame" x="16" y="636" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="StairTris" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="JMa-hI-P6b">
+                                <rect key="frame" x="16" y="312" width="343" height="43"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="43" id="EEW-Lb-Bcf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
+                                <color key="textColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="StairTris_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="WcN-kV-adl">
+                                <rect key="frame" x="113" y="152" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="150" id="HyI-Wf-yGs"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="mf4-QQ-VS3"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.17254901959999999" green="0.24313725489999999" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="JMa-hI-P6b" firstAttribute="leading" secondItem="AXA-cJ-QBs" secondAttribute="leadingMargin" id="2aD-YI-9q6"/>
+                            <constraint firstItem="WcN-kV-adl" firstAttribute="centerX" secondItem="AXA-cJ-QBs" secondAttribute="centerX" id="CpJ-1C-AmF"/>
+                            <constraint firstItem="WcN-kV-adl" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="10" id="D7e-zK-88r"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="JMa-hI-P6b" secondAttribute="trailing" id="NgH-i0-CqF"/>
+                            <constraint firstItem="JMa-hI-P6b" firstAttribute="top" secondItem="WcN-kV-adl" secondAttribute="bottom" constant="10" id="Nlq-Yo-PwV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="O3U-Ft-BNS" secondAttribute="trailing" id="YtG-1B-W3M"/>
+                            <constraint firstItem="O3U-Ft-BNS" firstAttribute="top" relation="greaterThanOrEqual" secondItem="JMa-hI-P6b" secondAttribute="bottom" constant="10" id="cE6-8Z-kuT"/>
+                            <constraint firstItem="JMa-hI-P6b" firstAttribute="centerY" secondItem="AXA-cJ-QBs" secondAttribute="centerY" id="efp-l8-JjI"/>
+                            <constraint firstItem="O3U-Ft-BNS" firstAttribute="leading" secondItem="AXA-cJ-QBs" secondAttribute="leadingMargin" id="ry3-kV-irR"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="O3U-Ft-BNS" secondAttribute="bottom" constant="10" id="yVi-Yh-EsW"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -24,4 +65,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="StairTris_Icon" width="300" height="300"/>
+    </resources>
 </document>

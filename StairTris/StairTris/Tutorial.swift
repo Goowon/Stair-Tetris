@@ -323,7 +323,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
     
     func shake() {
         if canShake && currentGameState != .death {
-            print("I am SHOOK")
+            //print("I am SHOOK")
             jumpPower = 12
             sidePower = 2
             canShake = false

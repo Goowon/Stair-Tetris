@@ -82,8 +82,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func loadAd() {
         interstitial = GADInterstitial(adUnitID: "ca-app-pub-8750198063494542/8475057255")
         let request = GADRequest()
-        request.testDevices = ["21174a67009c04267108ace0eda5f891"] // comment when releasing
-        interstitial.load(request)
+        //request.testDevices = ["21174a67009c04267108ace0eda5f891"] // comment when releasing
+        interstitial.load(request) // comment this line if you're testing on an unapproved device
     }
     
     func showAd() {
@@ -94,7 +94,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if ad.isReady {
                 interstitial.present(fromRootViewController: GameScene.viewController )
             } else {
-                print("Ad wasn't ready")
+                //print("Ad wasn't ready")
             }
         }
     }
@@ -273,7 +273,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func shake() {
         if canShake {
-            print("I am SHOOK")
+            //print("I am SHOOKeth")
             jumpPower = 11
             sidePower = 2
         }
@@ -291,7 +291,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 piece.alpha = 0.5
             }
         }
-        if scrollTimer < 3.5 && !jumping {
+        if scrollTimer < 2.5 && !jumping {
             jumping = true
             let moveBack = SKAction(named: "movePlayerBack")!
             let squish = SKAction(named: "Squish")!
@@ -309,7 +309,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if scrollTimer > 0 {
         }
         else {
-            if timeLimit > 4 {
+            if timeLimit > 3 {
                 timeLimit -= 1
             }
             resetTimer()

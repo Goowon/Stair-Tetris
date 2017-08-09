@@ -18,10 +18,15 @@ class Settings: SKScene {
     var backButton: MSButtonNode!
     var removeAdsButton: MSButtonNode!
     var soundButton: MSButtonNode!
+    var rateButton: MSButtonNode!
     
     // Labels
     
     override func didMove(to view: SKView) {
+        rateButton = childNode(withName: "rateButton") as! MSButtonNode
+        rateButton.selectedHandler = {
+            SKStoreReviewController.requestReview()
+        }
         removeAdsButton = childNode(withName: "removeAdsButton") as! MSButtonNode
         removeAdsButton.selectedHandler =  {
             /*guard let authUI = FUIAuth.defaultAuthUI() else {

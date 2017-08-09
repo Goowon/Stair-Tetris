@@ -115,7 +115,7 @@ class Grid: SKSpriteNode {
             }
         }
         trackingCells = false
-        print("Bottom Layer was completely filled = \(filledLayer)")
+        //print("Bottom Layer was completely filled = \(filledLayer)")
         return filledLayer
     }
     
@@ -136,7 +136,6 @@ class Grid: SKSpriteNode {
                     return false
                 }
                 else if location.x <= heroLocation.x {
-                    print("condition")
                     return false
                 }
                 if gridArray[Int(location.x + offset)/cellWidth][Int(location.y-40 + offset)/cellHeight].name != "cell" {
