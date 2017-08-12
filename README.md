@@ -1,2 +1,2 @@
-# Stair-Tetris
+# StairTris
 Stair building game
