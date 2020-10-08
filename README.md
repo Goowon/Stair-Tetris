@@ -6,7 +6,7 @@ Created a Tetris-esque game where the objective is to build a staircase that wil
 
 Technologies used:
 
-Spriktekit Engine
+Spriktekit Engine  
 Swift Language
 
 https://apprecs.com/ios/1267480555/stairtris-an-endless-climber-for-puzzle-experts
