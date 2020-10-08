@@ -1,8 +1,11 @@
 # StairTris
 
+![StairTris Picture](/images/StairTris)
+
 Created a Tetris-esque game where the objective is to build a staircase that will allow the character to keep elevating itself as it jumps forward.
 
 Technologies used:
+
 Spriktekit Engine
 Swift Language
 
